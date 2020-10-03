@@ -3,7 +3,7 @@ const fs = require('fs');
 fs.readFile('input.txt', 'utf-8', (error, input) => {
   if (error) { throw error; }
   input = input.trim().split('\n').map(parse);
-  
+
   function parse(s) {
     const m = s.match(/#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/);
     return { id: m[1], x: +m[2], y: +m[3], w: +m[4], h: +m[5], c: false };

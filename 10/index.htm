@@ -364,51 +364,51 @@ position=<-50207,  30402> velocity=< 5, -3>
 <canvas style="border: 1px black solid"></canvas>
 <script>
 
-const parseLine = l => {
+  const parseLine = l => {
     const [, x, y, vx, vy] = l.match(/^position=<(.*),(.*)> velocity=<(.*),(.*)>$/);
     return {
-        position: { x: parseFloat(x), y: parseFloat(y) },
-        velocity: { x: parseFloat(vx), y: parseFloat(vy) }
+      position: { x: parseFloat(x), y: parseFloat(y) },
+      velocity: { x: parseFloat(vx), y: parseFloat(vy) }
     };
-};
+  };
 
-const input = document.querySelector('#input').value.trim().split('\n').map(parseLine);
+  const input = document.querySelector('#input').value.trim().split('\n').map(parseLine);
 
-let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-let minHeight = Infinity;
-function run() {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minHeight = Infinity;
+  function run() {
     for (let i of input) {
-        i.position.x += i.velocity.x;
-        i.position.y += i.velocity.y;
+      i.position.x += i.velocity.x;
+      i.position.y += i.velocity.y;
     }
     minY = Math.min.apply(null, input.map(i => i.position.y));
     maxY = Math.max.apply(null, input.map(i => i.position.y));
     if (Math.abs(maxY - minY) <= 10) {
-        draw();
-        return false;
+      draw();
+      return false;
     }
     return true;
-}
+  }
 
-const canvas = document.querySelector('canvas');
-canvas.width = 1000;
-canvas.height = 1000;
-const context = canvas.getContext('2d');
+  const canvas = document.querySelector('canvas');
+  canvas.width = 1000;
+  canvas.height = 1000;
+  const context = canvas.getContext('2d');
 
-function draw() {
+  function draw() {
     context.clearRect(0, 0, 1000, 1000);
     context.save();
     context.fillStyle = 'black';
     context.translate(-minX, -minY);
     for (let i of input) {
-        context.fillRect(i.position.x, i.position.y, 1, 1);
+      context.fillRect(i.position.x, i.position.y, 1, 1);
     }
     context.restore();
-}
+  }
 
-const max = 10000000;
-let n = 1;
-while (run() && n++ < max) { }
-console.log(n);
+  const max = 10000000;
+  let n = 1;
+  while (run() && n++ < max) { }
+  console.log(n);
 
 </script>
